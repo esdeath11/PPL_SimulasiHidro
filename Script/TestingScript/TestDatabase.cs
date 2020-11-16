@@ -15,9 +15,7 @@ public class TestDatabase : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         reference = FirebaseDatabase.DefaultInstance.RootReference;
-
     }
 
 
