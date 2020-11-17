@@ -8,6 +8,7 @@ public class MenuConfig : MonoBehaviour
     [SerializeField] GameObject menuShop;
     [SerializeField] GameObject menuBag;
     [SerializeField] GameObject validationButton;
+    [SerializeField] GameObject background;
 
 
     private void Start()
@@ -21,7 +22,6 @@ public class MenuConfig : MonoBehaviour
         
         menuBag.gameObject.SetActive(false);
         validationButton.gameObject.SetActive(false);
-        print("Shop");
     }
 
 
@@ -36,6 +36,11 @@ public class MenuConfig : MonoBehaviour
     {
         menuBag.gameObject.SetActive(false);
         menuShop.gameObject.SetActive(false);
+    }
+
+    public void mainGame()
+    {
+        background.SetActive(false);
     }
 
    
