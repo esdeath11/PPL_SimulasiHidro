@@ -10,7 +10,7 @@ using System;
 public class Item : MonoBehaviour
 {
     [SerializeField] Text seledri, bayamM, Dbawang, Selada, idName, Rockwool;
-    [SerializeField] GameObject rockWoolObject;
+    [SerializeField] GameObject rockWoolObject, bag;
     public static int cointSel, countBay, countBaw, countSelad, countRock;
     DatabaseReference reference;
     string id;
@@ -94,6 +94,7 @@ public class Item : MonoBehaviour
             reference.Child(id).Child("Inventory").Child("Rockwool").Child("Value").SetValueAsync(countRock);
             reference.Child(id).Child("Inventory").Child("Rockwool").Child("Status").SetValueAsync("1");
             rockWoolObject.SetActive(true);
+            bag.SetActive(false);
         }
     }
 
