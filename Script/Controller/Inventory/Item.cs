@@ -9,17 +9,25 @@ using System;
 
 public class Item : MonoBehaviour
 {
-    [SerializeField] Text seledri, bayamM, Dbawang, Selada, idName, Rockwool;
-    [SerializeField] GameObject rockWoolObject, bag;
+    [SerializeField] Text seledri, bayamM, Dbawang, Selada, idName, Rockwool, statusSeed, countSeed;
+    [SerializeField] GameObject rockWoolObject, bag, cancelTanam, UIRockwool, BagUI, status, ButtonCancel, StatusRKUI;
     public static int cointSel, countBay, countBaw, countSelad, countRock;
+    public static bool statTanam;
     DatabaseReference reference;
-    string id;
+    string id, usageStatus, statRockwool;
+
+    private void Update()
+    {
+        id = idName.text;
+        loadData();
+        
+    }
 
     private void Start()
     {
-        id = idName.text;
+        
         reference = FirebaseDatabase.DefaultInstance.RootReference;
-        loadData();
+        
     }
 
     public void loadData()
@@ -34,9 +42,10 @@ public class Item : MonoBehaviour
        // seledri.text = e.Snapshot.Child("Seledri").GetValue(true).ToString();
       //  bayamM.text = e.Snapshot.Child("bayam").GetValue(true).ToString();
      //   Dbawang.text = e.Snapshot.Child("Bawang").GetValue(true).ToString();
-        Selada.text = e.Snapshot.Child("Inventory").Child("Seed Selada").GetValue(true).ToString();
-        Rockwool.text = e.Snapshot.Child("Inventory").Child("Rockwool").Child("Value").GetValue(true).ToString();
-        
+        Selada.text = e.Snapshot.Child("Inventory").Child("Seed").Child("Selada").GetValue(true).ToString();
+        Rockwool.text = e.Snapshot.Child("Inventory").Child("Tools").Child("Rockwool").Child("Value").GetValue(true).ToString();
+        statRockwool = e.Snapshot.Child("Inventory").Child("Tools").Child("Rockwool").Child("Lubang Status").GetValue(true).ToString();
+
     }
 
     public void useSeledri()
@@ -54,11 +63,19 @@ public class Item : MonoBehaviour
     public void useSelada()
     {
         countSelad = int.Parse(Selada.text);
-       if(countSelad > 0)
+       if(countSelad > 0 && statRockwool == "True")
         {
-            countSelad -= 1;
-            Selada.GetComponent<Text>().text = countSelad.ToString();
-            reference.Child(id).Child("Inventory").Child("Seed Selada").SetValueAsync(int.Parse(Selada.text));
+            cancelTanam.SetActive(true);
+            UIRockwool.SetActive(true);
+            BagUI.SetActive(false);
+            statTanam = true;
+            usageStatus = "Seed Selada";
+            statusSeed.text = usageStatus;
+            countSeed.text = countSelad.ToString();
+            status.SetActive(true);
+            ButtonCancel.SetActive(true);
+            reference.Child(id).Child("Management").Child("Usage Status").SetValueAsync(usageStatus);
+            reference.Child(id).Child("Management").Child("Status Tanam").SetValueAsync(statTanam);
         }
     }
 
@@ -91,11 +108,17 @@ public class Item : MonoBehaviour
         {
             countRock -= 1;
             Rockwool.GetComponent<Text>().text = countRock.ToString();
-            reference.Child(id).Child("Inventory").Child("Rockwool").Child("Value").SetValueAsync(countRock);
-            reference.Child(id).Child("Inventory").Child("Rockwool").Child("Status").SetValueAsync("1");
+            reference.Child(id).Child("Inventory").Child("Tools").Child("Rockwool").Child("Value").SetValueAsync(countRock);
+            reference.Child(id).Child("Inventory").Child("Tools").Child("Rockwool").Child("Status").SetValueAsync("1");
             rockWoolObject.SetActive(true);
             bag.SetActive(false);
+          //  StatusRKUI.SetActive(true);
         }
+    }
+
+    public void checkrock()
+    {
+        rockWoolObject.SetActive(true);
     }
 
 

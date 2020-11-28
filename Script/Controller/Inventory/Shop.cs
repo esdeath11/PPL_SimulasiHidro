@@ -13,11 +13,19 @@ public class Shop : MonoBehaviour
     public static int money, countSelada, countSeledri, countBayam, countBawang, rockwool;
     DatabaseReference reference;
     string id;
+
+    private void Update()
+    {
+        id = idName.text;
+        
+        loadData();
+    }
+
     void Start()
     {
         id = idName.text;
         reference = FirebaseDatabase.DefaultInstance.RootReference;
-        loadData();
+        
     }
 
 
@@ -26,11 +34,12 @@ public class Shop : MonoBehaviour
         FirebaseDatabase.DefaultInstance
         .GetReference(id)
         .ValueChanged += Database_ValueChanged;
+        
     }
 
     private void Database_ValueChanged(object sender, ValueChangedEventArgs e)
     {
-        textMoney.text = e.Snapshot.Child("Shop").Child("Money").GetValue(true).ToString();
+        textMoney.text = e.Snapshot.Child("Inventory").Child("Economy").Child("Money").GetValue(true).ToString();
     }
 
     public void buySelada()
@@ -41,8 +50,8 @@ public class Shop : MonoBehaviour
             money -= 3000;
             countSelada += 3;
             textMoney.GetComponent<Text>().text = money.ToString();
-            reference.Child(id).Child("Shop").Child("Money").SetValueAsync(int.Parse(textMoney.text));
-            reference.Child(id).Child("Inventory").Child("Seed Selada").SetValueAsync(countSelada);
+            reference.Child(id).Child("Inventory").Child("Economy").Child("Money").SetValueAsync(int.Parse(textMoney.text));
+            reference.Child(id).Child("Inventory").Child("Seed").Child("Selada").SetValueAsync(countSelada);
         }
     }
 
@@ -54,9 +63,9 @@ public class Shop : MonoBehaviour
             money -= 7500;
             rockwool += 1;
             textMoney.GetComponent<Text>().text = money.ToString();
-            reference.Child(id).Child("Shop").Child("Money").SetValueAsync(int.Parse(textMoney.text));
-            reference.Child(id).Child("Inventory").Child("Rockwool").Child("Value").SetValueAsync(rockwool);
-            reference.Child(id).Child("Inventory").Child("Rockwool").Child("Status").SetValueAsync("0");
+            reference.Child(id).Child("Inventory").Child("Economy").Child("Money").SetValueAsync(int.Parse(textMoney.text));
+            reference.Child(id).Child("Inventory").Child("Tools").Child("Rockwool").Child("Value").SetValueAsync(rockwool);
+            reference.Child(id).Child("Inventory").Child("Tools").Child("Rockwool").Child("Status").SetValueAsync("0");
         }
     }
 

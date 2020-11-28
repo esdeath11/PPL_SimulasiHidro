@@ -8,7 +8,7 @@ public class MenuConfig : MonoBehaviour
     [SerializeField] GameObject menuShop;
     [SerializeField] GameObject menuBag;
     [SerializeField] GameObject validationButton;
-    [SerializeField] GameObject background;
+ 
 
 
     private void Start()
@@ -40,7 +40,7 @@ public class MenuConfig : MonoBehaviour
 
     public void mainGame()
     {
-        background.SetActive(false);
+        
     }
 
    
