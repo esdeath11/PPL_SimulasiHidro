@@ -9,7 +9,7 @@ public class SceneConfigManager : MonoBehaviour
 
     [SerializeField] GameObject menuUtama;
     [SerializeField] GameObject usernameUI;
-    [SerializeField] GameObject UsernameText;
+    [SerializeField] GameObject UsernameText, authButton;
     public string username;
 
 
@@ -17,6 +17,7 @@ public class SceneConfigManager : MonoBehaviour
     {
         menuUtama.SetActive(false);
         usernameUI.SetActive(true);
+        authButton.SetActive(true);
     }
 
     public void confirmPlay()

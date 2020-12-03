@@ -6,17 +6,17 @@ using Firebase.Database;
 using Firebase.Unity.Editor;
 using UnityEngine.UI;
 using System;
-public class Check_id : Register_id
+public class Check_id : MonoBehaviour
 {
+    
     [SerializeField] Text idname;
     string id;
     DatabaseReference reference;
     void Start()
     {
         reference = FirebaseDatabase.DefaultInstance.RootReference;
-        id = Register_id.id;
-        
-        loadData();
+
+        authCheck();
     }
 
     void loadData()
@@ -29,5 +29,20 @@ public class Check_id : Register_id
     private void Database_ValueChanged(object sender, ValueChangedEventArgs e)
     {
         idname.text = e.Snapshot.Child("Name").GetValue(true).ToString();
+    }
+
+    void authCheck()
+    {
+        if (Login_id.switchAuth == 1 && Register_id.switchAuth == 0)
+        {
+            id = Login_id.idLog;
+            loadData();
+        }
+
+        if (Register_id.switchAuth == 2 && Login_id.switchAuth == 0)
+        {
+            id = Register_id.id;
+            loadData();
+        }
     }
 }

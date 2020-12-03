@@ -10,6 +10,7 @@ using System;
 public class Register_id : MonoBehaviour
 {
     DatabaseReference reference;
+    public static int switchAuth = 0;
     [SerializeField] InputField username;
     public static string id;
     int Selada;
@@ -24,11 +25,13 @@ public class Register_id : MonoBehaviour
         statusTanam = false;
         UsageStatus = false;
         lubang = false;
+        switchAuth = 0;
     }
 
     public void registerID()
     {
         id = username.text;
+        switchAuth = 2;
         if(username.text != "")
         {
             reference.Child(id).Child("Name").SetValueAsync(username.text.ToString());
